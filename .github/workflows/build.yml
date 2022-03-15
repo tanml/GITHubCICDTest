@@ -15,12 +15,27 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1    
+      uses: microsoft/setup-msbuild@v1
+    
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
 
-    - name: Install dependencies
-      run: dotnet restore
+    - name: Navigate to Workspace
+      run: cd $GITHUB_WORKSPACE
+
+    - name: Create Build Directory
+      run: mkdir _build
+  
+    - name: Restore Packages
+      run: nuget restore GITHubCICDTest.sln
       
     - name: Build and Publish Web App
-      run: msbuild.exe GITHubCICDTest/GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
+      run: msbuild.exe GITHubCICDTest.sln /p:platform="Any CPU" /p:configuration="Release"
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: GITHubCICDTestBundle
+        path: "./_build"
       
  
