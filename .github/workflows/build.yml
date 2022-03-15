@@ -31,5 +31,10 @@ jobs:
       with:
         name: GITHubCICDTestBundle
         path: "./_build"
-      
+    
+    - name: Deploy to IIS
+      run: |
+        iisreset /stop
+        Copy-Item ./GITHubCICDTest/* C:/WorkFiles/Project/GITHubCICDDeploy -Recurse -Force
+        iisreset /start
  
