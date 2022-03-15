@@ -22,11 +22,5 @@ jobs:
       
     - name: Build and Publish Web App
       run: msbuild.exe GITHubCICDTest/GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
-            
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: GITHubCICDTest
-        path: bin\Release\Publish
       
  
