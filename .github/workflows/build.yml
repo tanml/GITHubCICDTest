@@ -21,8 +21,8 @@ jobs:
       run: dotnet restore
       
     - name: Build and Publish Web App
-      run: msbuild GITHubCICDTest.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=PublishProfiles
-      
+      run: msbuild.exe GITHubCICDTest/GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
+            
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
