@@ -1,10 +1,8 @@
-name: build
+name: Build
 
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -20,15 +18,15 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
 
-    - name: Restore dependencies
-      run: nuget restore GITHubCICDTest.sln
-      
     - name: Navigate to Workspace
       run: cd $GITHUB_WORKSPACE
 
     - name: Create Build Directory
       run: mkdir _build
         
+    - name: Restore dependencies
+      run: nuget restore GITHubCICDTest.sln
+      
     - name: Build and Publish Web App
       run: msbuild.exe GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
       #run: msbuild.exe GITHubCICDTest.sln /p:platform="Any CPU" /p:configuration="Release"
