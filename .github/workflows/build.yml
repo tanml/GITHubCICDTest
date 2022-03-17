@@ -18,24 +18,27 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
 
-    - name: Navigate to Workspace
-      run: cd $GITHUB_WORKSPACE
+    #- name: Navigate to Workspace
+    #  run: cd $GITHUB_WORKSPACE
 
-    - name: Create Build Directory
-      run: mkdir _build
+    #- name: Create Build Directory
+    #  run: mkdir _build
         
     - name: Restore dependencies
       run: nuget restore GITHubCICDTest.sln
       
     - name: Build and Publish Web App
-      run: msbuild.exe GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
-      #run: msbuild.exe GITHubCICDTest.sln /p:platform="Any CPU" /p:configuration="Release"
+      #run: msbuild.exe GITHubCICDTest.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
+      run: msbuild.exe GITHubCICDTest.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
       
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: GITHubCICDTestBundle
-        path: "./_build"
+        name: published_webapp
+        path: bin\app.publish
+      #with:
+        #name: GITHubCICDTestBundle
+        #path: "./_build"
     
  
  
