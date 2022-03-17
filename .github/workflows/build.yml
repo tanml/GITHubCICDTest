@@ -7,7 +7,7 @@ on:
 
 env:
   WEBAPP_NAME: GITHubCICDTest.sln     # set this to your application's name
-  WEBAPP_PACKAGE_PATH: 'app.publish'  # set this to the path to your web app project, defaults to the repository root
+  WEBAPP_PACKAGE_PATH: './_build'  # set this to the path to your web app project, defaults to the repository root
   
 jobs:
   build:
@@ -22,18 +22,17 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
 
-    #- name: Navigate to Workspace
-    #  run: cd $GITHUB_WORKSPACE
+    - name: Navigate to Workspace
+      run: cd $GITHUB_WORKSPACE
 
-    #- name: Create Build Directory
-    #  run: mkdir _build
+    - name: Create Build Directory
+      run: mkdir ${{ env.WEBAPP_PACKAGE_PATH }}
         
     - name: Restore dependencies
       run: nuget restore ${{ env.WEBAPP_NAME }}
       
     - name: Build Web App
       run: msbuild ${{ env.WEBAPP_NAME }} /p:Configuration=Release
-      #run: msbuild.exe GITHubCICDTest.sln /p:DeployOnBuild=true /p:platform="Any CPU" /p:configuration="Release"
     
     - name: Publish to folder
       run: msbuild ${{ env.WEBAPP_NAME }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.WEBAPP_PACKAGE_PATH }} /p:PackageAsSingleFile=false
@@ -43,7 +42,6 @@ jobs:
       with:
         name: published_webapp
         path: ${{ env.WEBAPP_PACKAGE_PATH }}
-        #path: "./_build"
     
  
  
