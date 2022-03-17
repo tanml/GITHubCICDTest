@@ -27,8 +27,8 @@ jobs:
     - name: Restore dependencies
       run: nuget restore GITHubCICDTest.sln
       
-    - name: Build and Publish Web App
-      run: msbuild.exe GITHubCICDTest.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+    - name: Build Web App
+      run: msbuild.exe GITHubCICDTest.sln /p:DeployOnBuild=true /p:platform="Any CPU" /p:configuration="Release"
       
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
