@@ -31,11 +31,9 @@ jobs:
     - name: Restore dependencies
       run: nuget restore ${{ env.WEBAPP_NAME }}
       
-    - name: Build Web App
-      run: msbuild ${{ env.WEBAPP_NAME }} /p:Configuration=Release
-    
-    - name: Publish to folder
-      run: msbuild ${{ env.WEBAPP_NAME }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.WEBAPP_PACKAGE_PATH }} /p:PackageAsSingleFile=false
+    - name: Build and Publish Web App
+      #run: msbuild.exe ${{ env.WEBAPP_NAME }} /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
+      run: msbuild.exe ${{ env.WEBAPP_NAME }} /p:platform="Any CPU" /p:configuration="Release"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
